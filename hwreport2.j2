@@ -1,0 +1,9 @@
+-- Inventory host name: {{ansible_facts['hostname']}}
+-- Total memory in MB: {{ansible_facts['memtotal_mb']}}
+-- BIOS version: {{ansible_facts['bios_version']}} 
+
+
+{%if 'AnsibleUndefinedVariable' in output.msg%}
+-- Size of disk device vdb: NULL
+-- Size of disk device vda: NULL
+{%endif%}

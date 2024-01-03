@@ -1,0 +1,20 @@
+- hosts: all
+  become: true
+  tasks: 
+  - yum_repository:
+      name: "BaseOS"
+      baseurl: "file:///dvd/BaseOS "
+      description: "Base OS Repo"
+      gpgcheck: no
+      enabled: yes
+      
+  - yum_repository:
+      name: "BaseOS"
+      baseurl: "file:///dvd/AppStream"
+      description: "AppStream Repo"
+      gpgcheck: no
+      enabled: yes
+
+#Don't run this playbook as it mess with yum in all the worker nodes.
+
+#SET  gpgcheck as yes and then we need to key for gpg check in exam so don't forget.

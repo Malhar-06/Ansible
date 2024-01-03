@@ -1,0 +1,22 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+
+  vars:
+    autorun: true
+
+  roles:
+    - role: test
+      download: "curl"
+      download_file: "COPYING"
+      download_from: "https://storage.googleapis.com/ansible-test/COPYING"
+      download_to: "/tmp/{{ download_file }}"
+
+    - role: test
+      download: "mvn"
+      download_from: "http://repo1.maven.org/maven2"
+      download_mvn_extension: "jar"
+      download_mvn_group_id: "log4j"
+      download_mvn_artifact_id: "log4j"
+      download_mvn_version: "1.2.9"

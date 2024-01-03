@@ -1,0 +1,26 @@
+- hosts: all
+  become: true
+  vars:
+    pkgs:
+      - php
+      - mariadb
+
+  tasks: 
+  - name: "Downloading Packages"
+    yum:
+      name: "{{item}}"
+      state: present
+    loop: "{{pkgs}}"
+    when: inventory_hostname in groups['dev'] or inventory_hostname in groups['prod'] or inventory_hostname in groups['test']
+
+  - name: Installing the RPM Developement tool package group
+    yum:
+      name: "@RPM Development Tools"
+      state: present
+    when: inventory_hostname in groups['dev']
+  
+  - yum:
+      name: "*"
+      state: latest
+    when: inventory_hostname in groups['dev']
+

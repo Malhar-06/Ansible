@@ -1,0 +1,30 @@
+- name: playbook for lvm creation
+  hosts: all
+  tasks:
+    - name: create new partion
+      parted:
+        device: /dev/vdb
+        number: 1
+        state: present
+        part_end: 2GB
+      when: ansible_hostname == 'dev' or ansible_hostname == 'test' or ansible_hostname == 'prod'
+
+    - name: create a volume group
+      lvg:
+        vg: research
+        pvs: /dev/vdb1
+      when: ansible_hostname == 'dev' or ansible_hostname == 'test' or ansible_hostname == 'prod'
+
+    - name: create new partion
+      parted:
+        device: /dev/vdb
+        number: 1
+        state: present
+        part_end: 1GB
+      when: ansible_hostname == 'balancer'
+
+    - name: create a volume group
+      lvg:
+        vg: research
+        pvs: /dev/vdb1
+      when: ansible_hostname == 'balancer'

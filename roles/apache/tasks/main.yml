@@ -1,0 +1,29 @@
+---
+# tasks file for apache
+
+- yum:
+    name: "{{item}}"
+    state: present
+  loop: "{{pkgs}}" 
+
+
+
+- service:
+    name: "{{item}}"
+    state: started
+    enabled: yes
+  loop: "{{pkgs}}"
+
+
+- ansible.posix.firewalld:
+    service: "{{item}}"
+    immediate: true
+    state: enabled
+    permanent: true
+  loop: "{{rules}}"
+
+
+
+- ansible.builtin.template:
+      src: /home/ec2-user/ansible/roles/apache/templates/index.html.j2
+      dest: /var/www/html/index.html

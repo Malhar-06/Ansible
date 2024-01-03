@@ -1,0 +1,25 @@
+- hosts: all
+  become: true
+  tasks:
+  - name: "It will check error then apply condn to that err and sort it off"
+    block:
+    - template:
+        src: "hwreport.j2"
+        dest: "/root/hwreport.txt"
+      register: output
+
+    rescue:
+    - debug:
+        var: output
+
+    - template:
+        src: "hwreport2.j2"
+        dest: "/root/hwreport.txt"
+
+
+
+
+
+
+
+

@@ -1,0 +1,20 @@
+- hosts: all
+  become: true
+  tasks:
+    - ansible.builtin.yum_repository:
+        name: "baseos"
+        baseurl: "http://classroom.example.com/content/rhel8.0/x86_64/dvd/BaseOS"
+        description: "BaseOS Repo"
+        gpgcheck: yes
+        enabled: yes
+        gpgkey: http://classroom.example.com/content/rhel8.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+
+    - ansible.builtin.yum_repository:
+        name: "appstream"
+        baseurl: "http://classroom.example.com/content/rhel8.0/x86_64/dvd/AppStream"
+        description: "AppStream Repo"
+        gpgcheck: yes
+        enabled: yes
+        gpgkey: http://classroom.example.com/content/rhel8.0/x86_64/dvd/RPM-GPG-KEY-redhat-release
+
+        

@@ -1,0 +1,10 @@
+- hosts: balancers
+  become: true
+  roles:
+    - role: balancer
+
+
+#- hosts: webservers
+#  become: true
+#  roles:
+#    - role: phpinfo

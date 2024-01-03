@@ -1,0 +1,9 @@
+- hosts: all
+  become: true
+  tasks: 
+  - cron:
+      name: "Q.16"
+      minute: "*/2"
+      user: root
+      job: "logger 'EX294 in progress'"
+
