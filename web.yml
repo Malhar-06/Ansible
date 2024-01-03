@@ -1,0 +1,36 @@
+- hosts: dev
+  become: true
+  tasks:
+  - ansible.builtin.group:
+      name: "webdev"
+      state: present
+    
+  - ansible.builtin.file:
+      path: "/webdev"
+      state: directory
+      group: "webdev"
+      owner: "apache"  
+      mode: "02775"
+      setype: "httpd_sys_content_t"
+
+  - file:
+       src: "/webdev"
+       dest: "/var/www/html/webdev"
+       state: link
+       owner: "apache"
+       mode: "02775"
+       setype: "httpd_sys_content_t"
+
+
+
+  - copy:
+      dest: "/webdev/index.html"
+      mode: 0640
+      content: "Development"
+      owner: "apache"
+      setype: "httpd_sys_content_t"
+ 
+
+
+
+  

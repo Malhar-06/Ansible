@@ -1,0 +1,17 @@
+---
+- name: "download.mvn: Ensure directory of download_to"
+  file:
+    path: "{{ download_to | expanduser | dirname }}"
+    state: directory
+
+- name: "download.mvn: Maven Artifact"
+  maven_artifact:
+    group_id:       "{{ download_mvn_group_id }}"
+    username:       "{{ download_user | default(omit) }}"
+    password:       "{{ download_pass | default(omit) }}"
+    artifact_id:    "{{ download_mvn_artifact_id }}"
+    extension:      "{{ download_mvn_extension }}"
+    repository_url: "{{ download_from | default(omit) }}"
+    version:        "{{ download_mvn_version }}"
+    dest:           "{{ download_to }}"
+    validate_certs: "{{ download_secure }}"

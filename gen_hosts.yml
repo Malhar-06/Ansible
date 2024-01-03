@@ -1,0 +1,10 @@
+- hosts: all
+  tasks: []
+
+
+
+- hosts: dev
+  tasks:
+    - template:
+        src: "hosts.j2"
+        dest: "/etc/hosts"

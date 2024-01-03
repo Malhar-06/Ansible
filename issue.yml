@@ -1,0 +1,20 @@
+- hosts: all
+  become: true
+  tasks:
+    - copy:
+        content: "Developement"
+        dest: "/etc/issue"
+      when: inventory_hostname in ['dev']
+
+    - copy:
+        content: "Test"
+        dest: "/etc/issue"
+      when: inventory_hostname in ['test']
+
+    - copy:
+        content: "Production"
+        dest: "/etc/issue"
+      when: inventory_hostname in ['prod']
+     
+
+    

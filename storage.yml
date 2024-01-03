@@ -1,0 +1,38 @@
+- hosts: all
+  become: true
+  tasks:
+    - block:
+
+      - name: Create a logical volume of 1500M
+        lvol:
+          vg: research
+          lv: data
+          size: 1500m
+        register: lv_info
+
+
+      rescue:
+        - debug:
+            var: lv_info
+
+        - debug:
+            msg: "LV can not be created with following size"
+          when: ' "insufficient free space" in lv_info.err'
+
+        - name: Create a logical volume of 800M
+          lvol:
+            vg: research
+            lv: data
+            size: 800m
+          register: lv_info_new
+          when: ' "insufficient free space" in lv_info.err'
+
+        - debug:
+            msg: "VG not found"
+          when: ' "does not exist" in lv_info.msg'
+
+      always:
+        - name: create filesystem
+          filesystem:
+            fstype: ext4
+            dev: '/dev/research/data'

@@ -1,0 +1,40 @@
+- hosts: all
+  become: true
+
+  vars_files:
+    - user_list.yml #This file is used by user module
+    - vault.yml
+
+  tasks: 
+  - ansible.builtin.group:
+      name: "{{item}}"
+      state: present
+    loop:
+      - devops
+      - opsmgr
+
+  - ansible.builtin.user:
+      name: "{{item.name}}"
+      groups: "devops"
+      password_expire_max: 30
+      password: "{{dev_pass | password_hash('sha512')}}"
+    loop: "{{users}}"
+    when: 
+      - '"developer" in item.job'
+      - inventory_hostname in groups['dev'] or inventory_hostname in groups['test']
+    
+
+
+
+  - ansible.builtin.user:
+      name: "{{item.name}}"
+      groups: "opsmgr"
+      password_expire_max: 30
+      password: "{{mgr_pass | password_hash('sha512')}}"
+    loop: "{{users}}"
+    when:
+      - '"manager" in item.job'
+      - inventory_hostname in groups['prod']
+    
+
+
